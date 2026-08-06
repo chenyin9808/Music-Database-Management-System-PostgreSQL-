@@ -1,159 +1,202 @@
-# Music Database Management System (PostgreSQL)
+# 🎵 Music Database Management System (PostgreSQL)
 
-A relational database management system designed for the music industry using PostgreSQL. This project demonstrates database design, normalization, indexing strategies, data manipulation, and complex SQL queries for managing songs, artists, record labels, and related business information.
-
----
-
-## Project Overview
-
-This project develops a relational database for managing music industry data, including songs, artists, producers, songwriters, record labels, genres, and countries.
-
-The database supports common business operations such as:
-
-- Maintaining artist and record label information
-- Tracking songs and ownership history
-- Managing relationships between artists, producers, writers, and labels
-- Updating business records over time
-- Performing analytical SQL queries for reporting
-
-The project demonstrates practical database design principles and advanced SQL techniques using PostgreSQL.
+A relational database management system built with PostgreSQL for managing music industry data. This project demonstrates database design, normalization, relational modeling, PostgreSQL-specific features, indexing strategies, and advanced SQL analysis through a realistic business scenario.
 
 ---
 
-## Business Problem
+## Highlights
 
-Music companies manage large amounts of interconnected data involving artists, songs, producers, writers, and record labels.
-
-Without a properly designed relational database, it becomes difficult to:
-
-- Maintain data consistency
-- Track ownership changes
-- Analyze artist performance
-- Generate business reports efficiently
-- Avoid redundant data
-
-This project addresses these challenges through a normalized relational database and optimized SQL queries.
+- Designed a normalized relational database with **10 interconnected tables**
+- Implemented **Primary Keys, Foreign Keys, CHECK, UNIQUE, and EXCLUDE constraints**
+- Modeled historical artist-label and song-label relationships using PostgreSQL **DATERANGE**
+- Optimized query performance through indexing on frequently joined columns
+- Developed analytical SQL queries using **JOINs, CTEs, Window Functions, and Aggregate Functions**
 
 ---
 
-# Technologies
+# Project Overview
 
-- PostgreSQL
-- SQL
-- Relational Database Design
+The objective of this project is to design and implement a relational database capable of managing data within the music industry.
+
+The database stores information about:
+
+- Songs
+- Artists
+- Songwriters
+- Producers
+- Record Labels
+- Genres
+- Countries
+
+In addition to supporting daily data management, the database enables analytical reporting through advanced SQL queries while maintaining referential integrity and historical relationship tracking.
+
+---
+
+# Entity Relationship Diagram
+
+The following ER diagram illustrates the database schema.
+
+<p align="center">
+<img src="images/ERD.png" width="900">
+</p>
 
 ---
 
 # Database Design
 
-The database consists of multiple related entities, including:
+The database contains ten normalized tables.
 
-- Songs
-- Artists (Persons)
-- Record Labels
-- Producers
-- Songwriters
-- Genres
-- Countries
+| Table | Description |
+|------|-------------|
+| countries | Country reference table |
+| genres | Music genre reference table |
+| persons | Artists, writers, and producers |
+| labels | Record label information |
+| songs | Song information |
+| songs_artists | Song–Artist relationship |
+| songs_writers | Song–Writer relationship |
+| songs_producers | Song–Producer relationship |
+| songs_labels | Historical song-label ownership |
+| artists_labels | Historical artist-label contracts |
 
-Several many-to-many relationships are implemented through bridge tables, including:
+Several many-to-many relationships are implemented through bridge tables to reduce redundancy and improve data consistency.
 
-- Songs ↔ Singers
-- Songs ↔ Producers
-- Songs ↔ Writers
-- Songs ↔ Labels
-- Singers ↔ Labels
-
-Temporal relationships are managed using PostgreSQL `daterange`, allowing historical ownership and contract tracking.
-
----
-
-# Database Features
-
-The project demonstrates:
-
-- Database normalization
-- Primary and foreign key constraints
-- Bridge tables for many-to-many relationships
-- Referential integrity
-- Historical relationship tracking
-- Index optimization
-- Data insertion
-- Data updates
-- Analytical SQL queries
+Historical contracts and ownership are modeled using PostgreSQL `DATERANGE`.
 
 ---
 
-# Data Management
+# PostgreSQL Features
 
-The database supports common business operations including:
+### Database Design
 
-### Insert Operations
+- Third Normal Form (3NF)
+- Primary Keys
+- Foreign Keys
+- Referential Integrity
+- Bridge Tables
 
-- Add new artists
-- Add new record labels
-- Add new songs
-- Create relationships between songs and artists
-- Assign producers and songwriters
-- Track label ownership over time
+### Constraints
 
-### Update Operations
+- CHECK Constraints
+- UNIQUE Constraints
+- EXCLUDE USING GIST
+- NOT NULL Constraints
+- IDENTITY Columns
 
-- Update artist information
-- Update record label information
-- Update song statistics
-- Track contract changes using date ranges
+### PostgreSQL Features
 
-Deletion is intentionally restricted to preserve data integrity.
+- DATERANGE
+- INTERVAL
+- BOOLEAN
+- DATE
+
+### Performance Optimization
+
+- Indexes on foreign keys
+- Optimized JOIN performance
 
 ---
 
 # SQL Techniques Demonstrated
 
-This project utilizes a variety of SQL features, including:
+This project demonstrates practical SQL techniques including:
 
 - INNER JOIN
-- GROUP BY
+- LEFT JOIN
 - Aggregate Functions
+- GROUP BY
 - Common Table Expressions (CTE)
 - Window Functions
 - ROW_NUMBER()
-- PostgreSQL `daterange`
-- UPDATE
+- CASE Expressions
 - INSERT
-- Index Optimization
+- UPDATE
+- PostgreSQL DATERANGE
 
 ---
 
-# Example Business Queries
+# Example Queries
 
-Example analytical queries include:
+## 1. Artist Performance Summary
 
-- Number of songs released by each artist
-- Total song sales by artist
-- Number of award-winning songs
-- Most popular music genres for each record label
-- Top record labels within each genre
-- Current artists signed by each label
-- Historical ownership of songs and artists
+Calculates the number of songs, cumulative sales, and award-winning songs for each artist.
 
-These queries demonstrate how SQL can be used to generate meaningful business insights from relational data.
+<p align="center">
+<img src="images/QUERY1.png" width="850">
+</p>
 
 ---
 
-# Project Structure
+## 2. Current Artist and Song Labels
 
-```
+Displays each artist's current record label together with the labels currently associated with their songs.
+
+<p align="center">
+<img src="images/QUERY2.png" width="850">
+</p>
+
+---
+
+## 3. Songs by Label and Genre
+
+Analyzes the distribution of songs across record labels and music genres.
+
+<p align="center">
+<img src="images/QUERY3.png" width="850">
+</p>
+
+---
+
+## 4. Label Distribution Within Each Genre
+
+Summarizes the number of songs owned by each record label for every genre.
+
+<p align="center">
+<img src="images/QUERY4.png" width="850">
+</p>
+
+---
+
+## 5. Current Artists Signed to Each Label
+
+Counts the number of artists currently signed to each record label.
+
+<p align="center">
+<img src="images/QUERY5.png" width="600">
+</p>
+
+---
+
+## 6. Artist and Song Label Consistency
+
+Compares artists' current labels with the labels currently owning their songs to identify cross-label collaborations or ownership differences.
+
+<p align="center">
+<img src="images/QUERY6.png" width="900">
+</p>
+
+---
+
+# Repository Structure
+
+```text
 Music-Database-Management-System
 │
 ├── README.md
-├── schema.sql
-├── sample_data.sql
-├── queries.sql
-├── indexes.sql
+├── 01_create_tables.sql
+├── 02_foreign_keys.sql
+├── 03_indexes.sql
+├── 04_insert_data.sql
+├── 05_advanced_queries.sql
+│
 └── images
-    ├── er_diagram.png
-    └── schema.png
+    ├── ERD.png
+    ├── QUERY1.png
+    ├── QUERY2.png
+    ├── QUERY3.png
+    ├── QUERY4.png
+    ├── QUERY5.png
+    └── QUERY6.png
 ```
 
 ---
@@ -161,10 +204,16 @@ Music-Database-Management-System
 # Future Improvements
 
 - Develop stored procedures for common business operations.
-- Implement triggers for automatic data validation and auditing.
-- Create views for frequently used business reports.
-- Optimize query performance for larger datasets.
-- Build a dashboard using Power BI or Tableau connected to the PostgreSQL database.
+- Implement triggers for automatic auditing and validation.
+- Create reusable database views for reporting.
+- Analyze query execution plans to further optimize performance.
+- Connect the database to Power BI or Tableau for interactive dashboards.
+
+---
+
+# Project Background
+
+This project was originally developed as part of a graduate-level Database Systems course at Tufts University and was subsequently refactored, documented, and expanded into a portfolio project.
 
 ---
 
